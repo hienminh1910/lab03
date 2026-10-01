@@ -186,83 +186,36 @@
 
     <p>
       <label for="date">Date</label>
-
       <input type="text"
              name="date"
              id="date"
-             value="__/__/____"
+             placeholder="dd/mm/yyyy"
              maxlength="10"
              required="required"
-             inputmode="numeric"
              pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"
+             inputmode="numeric"
+             oninput="
+               this.setCustomValidity('');
 
-             onfocus="
-               if(this.value === '__/__/____') {
-                 this.setSelectionRange(0,0);
+               let numbers = this.value.replace(/[^0-9]/g,'').slice(0,8);
+
+               if(numbers.length <= 2) {
+                 this.value = numbers;
+               }
+               else if(numbers.length <= 4) {
+                 this.value =
+                   numbers.slice(0,2) + '/' +
+                   numbers.slice(2);
+               }
+               else {
+                 this.value =
+                   numbers.slice(0,2) + '/' +
+                   numbers.slice(2,4) + '/' +
+                   numbers.slice(4);
                }
              "
-
-             onkeydown="
-               if(event.key >= '0' && event.key <= '9') {
-                 event.preventDefault();
-
-                 let chars = this.value.split('');
-                 let pos = this.selectionStart;
-
-                 if(pos === 2 || pos === 5) {
-                   pos++;
-                 }
-
-                 if(pos < 10) {
-                   chars[pos] = event.key;
-                   this.value = chars.join('');
-
-                   pos++;
-
-                   if(pos === 2 || pos === 5) {
-                     pos++;
-                   }
-
-                   this.setSelectionRange(pos,pos);
-                 }
-
-                 this.setCustomValidity('');
-               }
-
-               else if(event.key === 'Backspace') {
-                 event.preventDefault();
-
-                 let chars = this.value.split('');
-                 let pos = this.selectionStart;
-
-                 if(pos === 3 || pos === 6) {
-                   pos--;
-                 }
-
-                 if(pos > 0) {
-                   pos--;
-
-                   if(pos === 2 || pos === 5) {
-                     pos--;
-                   }
-
-                   chars[pos] = '_';
-                   this.value = chars.join('');
-                   this.setSelectionRange(pos,pos);
-                 }
-               }
-
-               else if(
-                 event.key !== 'Tab' &&
-                 event.key !== 'ArrowLeft' &&
-                 event.key !== 'ArrowRight'
-               ) {
-                 event.preventDefault();
-               }
-             "
-
              oninvalid="
-               if(this.value === '__/__/____') {
+               if(this.validity.valueMissing) {
                  this.setCustomValidity('Please fill out this field.');
                } else {
                  this.setCustomValidity('Date must be in dd/mm/yyyy format.');
@@ -273,86 +226,33 @@
 
     <p>
       <label for="time">Time</label>
-
       <input type="text"
              name="time"
              id="time"
-             value="__:__"
+             placeholder="hh:mm"
              maxlength="5"
              required="required"
-             inputmode="numeric"
              pattern="([01][0-9]|2[0-3]):[0-5][0-9]"
+             inputmode="numeric"
+             oninput="
+               this.setCustomValidity('');
 
-             onfocus="
-               if(this.value === '__:__') {
-                 this.setSelectionRange(0,0);
+               let numbers = this.value.replace(/[^0-9]/g,'').slice(0,4);
+
+               if(numbers.length <= 2) {
+                 this.value = numbers;
+               }
+               else {
+                 this.value =
+                   numbers.slice(0,2) + ':' +
+                   numbers.slice(2);
                }
              "
-
-             onkeydown="
-               if(event.key >= '0' && event.key <= '9') {
-                 event.preventDefault();
-
-                 let chars = this.value.split('');
-                 let pos = this.selectionStart;
-
-                 if(pos === 2) {
-                   pos++;
-                 }
-
-                 if(pos < 5) {
-                   chars[pos] = event.key;
-                   this.value = chars.join('');
-
-                   pos++;
-
-                   if(pos === 2) {
-                     pos++;
-                   }
-
-                   this.setSelectionRange(pos,pos);
-                 }
-
-                 this.setCustomValidity('');
-               }
-
-               else if(event.key === 'Backspace') {
-                 event.preventDefault();
-
-                 let chars = this.value.split('');
-                 let pos = this.selectionStart;
-
-                 if(pos === 3) {
-                   pos--;
-                 }
-
-                 if(pos > 0) {
-                   pos--;
-
-                   if(pos === 2) {
-                     pos--;
-                   }
-
-                   chars[pos] = '_';
-                   this.value = chars.join('');
-                   this.setSelectionRange(pos,pos);
-                 }
-               }
-
-               else if(
-                 event.key !== 'Tab' &&
-                 event.key !== 'ArrowLeft' &&
-                 event.key !== 'ArrowRight'
-               ) {
-                 event.preventDefault();
-               }
-             "
-
              oninvalid="
-               if(this.value === '__:__') {
+               if(this.validity.valueMissing) {
                  this.setCustomValidity('Please fill out this field.');
                } else {
-                 this.setCustomValidity('Time must be in HH:MM format.');
+                 this.setCustomValidity('Time must be in hh:mm format.');
                }
              " />
     </p>
