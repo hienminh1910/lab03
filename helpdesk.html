@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="CWA Help Desk Appointment Form" />
+  <meta name="keywords" content="HTML, Form, CWA, Help Desk" />
+  <meta name="author" content="Minh Luong" />
+  <title>CWA Help Desk Appointment</title>
+</head>
+
+<body>
+
+<a href="http://www.swin.edu.au">
+  <img src="logo.png" alt="Swinburne University of Technology logo" />
+</a>
+
+<h1>CWA Help Desk Appointment</h1>
+
+<p>The Help Desk is located in ATC620. Open 10:30 to 19:00 Monday to Friday.</p>
+<p>Check Blackboard for when CWA tutors will be there.</p>
+
+<form method="post" action="http://mercury.swin.edu.au/it000000/formtest.php">
+
+  <fieldset>
+    <legend>Student details</legend>
+
+    <p>
+      <label for="studentid">Student ID</label>
+      <input type="text"
+             name="studentid"
+             id="studentid"
+             required="required"
+             minlength="7"
+             maxlength="10"
+             pattern="[0-9]{7,10}"
+             inputmode="numeric"
+             oninput="
+               this.value=this.value.replace(/[^0-9]/g,'');
+               this.setCustomValidity('');
+             "
+             oninvalid="
+               if(this.validity.valueMissing) {
+                 this.setCustomValidity('Please fill out this field.');
+               } else {
+                 this.setCustomValidity('Must be between 7 and 10 digits.');
+               }
+             " />
+    </p>
+
+    <p>
+      <label for="givenname">Given Name</label>
+      <input type="text"
+             name="givenname"
+             id="givenname"
+             maxlength="15"
+             required="required"
+             pattern="[A-Za-z]+"
+             oninput="
+               this.value=this.value.replace(/[^A-Za-z]/g,'');
+               this.setCustomValidity('');
+             "
+             oninvalid="
+               if(this.validity.valueMissing) {
+                 this.setCustomValidity('Please fill out this field.');
+               } else {
+                 this.setCustomValidity('Maximum 15 characters and no numbers.');
+               }
+             " />
+
+      <label for="familyname">Family Name</label>
+      <input type="text"
+             name="familyname"
+             id="familyname"
+             maxlength="15"
+             required="required"
+             pattern="[A-Za-z]+"
+             oninput="
+               this.value=this.value.replace(/[^A-Za-z]/g,'');
+               this.setCustomValidity('');
+             "
+             oninvalid="
+               if(this.validity.valueMissing) {
+                 this.setCustomValidity('Please fill out this field.');
+               } else {
+                 this.setCustomValidity('Maximum 15 characters and no numbers.');
+               }
+             " />
+    </p>
+
+  </fieldset>
+
+
+  <fieldset>
+    <legend>Your unit</legend>
+
+    <p>
+      <input type="radio"
+             id="cos10011"
+             name="unit"
+             value="COS10011"
+             required="required" />
+      <label for="cos10011">COS10011</label>
+
+      <input type="radio"
+             id="cos60004"
+             name="unit"
+             value="COS60004" />
+      <label for="cos60004">COS60004</label>
+
+      <input type="radio"
+             id="cos60007"
+             name="unit"
+             value="COS60007" />
+      <label for="cos60007">COS60007</label>
+    </p>
+
+    <p>
+      <label for="tutor">Your Tutor</label>
+
+      <select name="tutor"
+              id="tutor"
+              required="required">
+        <option value="">Please Select</option>
+        <option value="john">John</option>
+        <option value="mary">Mary</option>
+        <option value="david">David</option>
+        <option value="sarah">Sarah</option>
+      </select>
+    </p>
+
+  </fieldset>
+
+
+  <fieldset>
+    <legend>Issue</legend>
+
+    <p>
+      <label for="html">HTML</label>
+      <input type="checkbox"
+             id="html"
+             name="issue[]"
+             value="HTML"
+             checked="checked" />
+
+      <label for="css">CSS</label>
+      <input type="checkbox"
+             id="css"
+             name="issue[]"
+             value="CSS" />
+
+      <label for="javascript">JavaScript</label>
+      <input type="checkbox"
+             id="javascript"
+             name="issue[]"
+             value="JavaScript" />
+
+      <label for="php">PHP</label>
+      <input type="checkbox"
+             id="php"
+             name="issue[]"
+             value="PHP" />
+
+      <label for="mysql">MySQL</label>
+      <input type="checkbox"
+             id="mysql"
+             name="issue[]"
+             value="MySQL" />
+    </p>
+
+    <p>
+      <label for="description">Description of Issue</label>
+      <br />
+
+      <textarea id="description"
+                name="description"
+                rows="5"
+                cols="40"
+                placeholder="Write description of your problem here..."></textarea>
+    </p>
+
+  </fieldset>
+
+
+  <fieldset>
+    <legend>Preferred Date / Time</legend>
+
+    <p>
+      <label for="date">Date</label>
+
+      <input type="text"
+             name="date"
+             id="date"
+             value="__/__/____"
+             maxlength="10"
+             required="required"
+             inputmode="numeric"
+             pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"
+
+             onfocus="
+               if(this.value === '__/__/____') {
+                 this.setSelectionRange(0,0);
+               }
+             "
+
+             onkeydown="
+               if(event.key >= '0' && event.key <= '9') {
+                 event.preventDefault();
+
+                 let chars = this.value.split('');
+                 let pos = this.selectionStart;
+
+                 if(pos === 2 || pos === 5) {
+                   pos++;
+                 }
+
+                 if(pos < 10) {
+                   chars[pos] = event.key;
+                   this.value = chars.join('');
+
+                   pos++;
+
+                   if(pos === 2 || pos === 5) {
+                     pos++;
+                   }
+
+                   this.setSelectionRange(pos,pos);
+                 }
+
+                 this.setCustomValidity('');
+               }
+
+               else if(event.key === 'Backspace') {
+                 event.preventDefault();
+
+                 let chars = this.value.split('');
+                 let pos = this.selectionStart;
+
+                 if(pos === 3 || pos === 6) {
+                   pos--;
+                 }
+
+                 if(pos > 0) {
+                   pos--;
+
+                   if(pos === 2 || pos === 5) {
+                     pos--;
+                   }
+
+                   chars[pos] = '_';
+                   this.value = chars.join('');
+                   this.setSelectionRange(pos,pos);
+                 }
+               }
+
+               else if(
+                 event.key !== 'Tab' &&
+                 event.key !== 'ArrowLeft' &&
+                 event.key !== 'ArrowRight'
+               ) {
+                 event.preventDefault();
+               }
+             "
+
+             oninvalid="
+               if(this.value === '__/__/____') {
+                 this.setCustomValidity('Please fill out this field.');
+               } else {
+                 this.setCustomValidity('Date must be in dd/mm/yyyy format.');
+               }
+             " />
+    </p>
+
+
+    <p>
+      <label for="time">Time</label>
+
+      <input type="text"
+             name="time"
+             id="time"
+             value="__:__"
+             maxlength="5"
+             required="required"
+             inputmode="numeric"
+             pattern="([01][0-9]|2[0-3]):[0-5][0-9]"
+
+             onfocus="
+               if(this.value === '__:__') {
+                 this.setSelectionRange(0,0);
+               }
+             "
+
+             onkeydown="
+               if(event.key >= '0' && event.key <= '9') {
+                 event.preventDefault();
+
+                 let chars = this.value.split('');
+                 let pos = this.selectionStart;
+
+                 if(pos === 2) {
+                   pos++;
+                 }
+
+                 if(pos < 5) {
+                   chars[pos] = event.key;
+                   this.value = chars.join('');
+
+                   pos++;
+
+                   if(pos === 2) {
+                     pos++;
+                   }
+
+                   this.setSelectionRange(pos,pos);
+                 }
+
+                 this.setCustomValidity('');
+               }
+
+               else if(event.key === 'Backspace') {
+                 event.preventDefault();
+
+                 let chars = this.value.split('');
+                 let pos = this.selectionStart;
+
+                 if(pos === 3) {
+                   pos--;
+                 }
+
+                 if(pos > 0) {
+                   pos--;
+
+                   if(pos === 2) {
+                     pos--;
+                   }
+
+                   chars[pos] = '_';
+                   this.value = chars.join('');
+                   this.setSelectionRange(pos,pos);
+                 }
+               }
+
+               else if(
+                 event.key !== 'Tab' &&
+                 event.key !== 'ArrowLeft' &&
+                 event.key !== 'ArrowRight'
+               ) {
+                 event.preventDefault();
+               }
+             "
+
+             oninvalid="
+               if(this.value === '__:__') {
+                 this.setCustomValidity('Please fill out this field.');
+               } else {
+                 this.setCustomValidity('Time must be in HH:MM format.');
+               }
+             " />
+    </p>
+
+  </fieldset>
+
+
+  <input type="submit" value="Book" />
+  <input type="reset" value="Reset form" />
+
+</form>
+
+</body>
+</html>
